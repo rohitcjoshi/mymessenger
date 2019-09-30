@@ -16,5 +16,9 @@ class MainActivity : AppCompatActivity() {
         btnAlreadyHaveAccount.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
+        btnCreateNewAccount.setOnClickListener {
+            startActivity(Intent(this, CreateAccountActivity::class.java))
+        }
     }
 }
