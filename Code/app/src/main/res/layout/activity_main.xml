@@ -24,6 +24,7 @@
         android:textStyle="bold|italic" />
 
     <Button
+        android:id="@+id/btnAlreadyHaveAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -36,6 +37,7 @@
         android:textStyle="bold" />
 
     <Button
+        android:id="@+id/btnCreateNewAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

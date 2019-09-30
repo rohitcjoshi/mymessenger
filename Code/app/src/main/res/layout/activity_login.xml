@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
     tools:context=".ui.LoginActivity">
 
@@ -12,9 +12,53 @@
         android:id="@+id/cardView"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@color/colorCardView"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
-        app:cardUseCompatPadding="true"
-        android:background="@color/colorCardView"
-        android:layout_centerInParent="true"/>
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="Already have an account?"
+                android:textSize="16sp"
+                android:textColor="@color/white_text"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/etLoginEnterEmail"
+                style="@style/etLoginText"
+                android:hint="Enter email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/etLoginEnterPassword"
+                style="@style/etLoginText"
+                android:layout_marginTop="10dp"
+                android:hint="Enter password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnLoginId"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bt_shape"
+                android:stateListAnimator="@drawable/state_list_animator_z"
+                android:text="Login"
+                android:textColor="@color/white_text" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
