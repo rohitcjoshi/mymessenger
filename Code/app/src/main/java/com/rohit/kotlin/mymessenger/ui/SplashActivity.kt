@@ -22,7 +22,10 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Handler().postDelayed(Runnable { startActivity(Intent(this, MainActivity::class.java)) }, 2500)
+        Handler().postDelayed(Runnable {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }, 2500)
     }
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
