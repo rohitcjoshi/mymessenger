@@ -13,11 +13,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnAlreadyHaveAccount.setOnClickListener {
+        btnMainAlreadyHaveAccount.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
-        btnCreateNewAccount.setOnClickListener {
+        btnMainCreateNewAccount.setOnClickListener {
             startActivity(Intent(this, CreateAccountActivity::class.java))
         }
     }
