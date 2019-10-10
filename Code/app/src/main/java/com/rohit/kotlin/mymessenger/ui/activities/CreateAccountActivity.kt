@@ -1,4 +1,4 @@
-package com.rohit.kotlin.mymessenger.ui
+package com.rohit.kotlin.mymessenger.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.rohit.kotlin.mymessenger.R
 import kotlinx.android.synthetic.main.activity_create_account.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class CreateAccountActivity : AppCompatActivity() {
 

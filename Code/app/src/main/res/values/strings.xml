@@ -16,6 +16,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
-    <string name="toast_err_enter_all_fields">Please enter all values</string>
+    <string name="toast_err_enter_all_fields">Please provide valid inputs</string>
     <string name="toast_msg_account_created">Your account has been created..!</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.rohit.kotlin.mymessenger.ui
+package com.rohit.kotlin.mymessenger.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
             if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
                 loginUser(email, password)
             } else {
-                Toast.makeText(this, "Please enter valid email & password", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.toast_err_enter_all_fields, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
             if(task.isSuccessful) {
                 progressBarLogin.visibility = View.GONE
                 val dashboardIntent = Intent(this, DashboardActivity::class.java)
-                dashboardIntent.putExtra("display_name", mAuth?.currentUser?.displayName)
+                dashboardIntent.putExtra("display_name", mAuth?.currentUser?.email)
                 startActivity(dashboardIntent)
                 finish()
             } else {
