@@ -33,7 +33,7 @@ class CreateAccountActivity : AppCompatActivity() {
             if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(displayName)) {
                 createAccount(email, password, displayName)
             } else{
-                Toast.makeText(this, "Please enter all values", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.toast_err_enter_all_fields, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -59,19 +59,19 @@ class CreateAccountActivity : AppCompatActivity() {
                 mDatabase!!.setValue(userObject).addOnCompleteListener {
                     task: Task<Void> ->
                     if(task.isSuccessful) {
-                        Toast.makeText(this, "User created..!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.toast_msg_account_created, Toast.LENGTH_LONG).show()
                         progressBarCreateAcc.visibility = View.GONE
                         val dashboardIntent = Intent(this, DashboardActivity::class.java)
                         dashboardIntent.putExtra("display_name", displayName)
                         startActivity(dashboardIntent)
                         finish()
                     } else {
-                        Toast.makeText(this, "User NOT created..!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Fatal error. Your account NOT created..!", Toast.LENGTH_LONG).show()
                         progressBarCreateAcc.visibility = View.GONE
                     }
                 }
             } else {
-                Toast.makeText(this, "Unable to create account..!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Fatal error. Unable to create account..!", Toast.LENGTH_LONG).show()
                 progressBarCreateAcc.visibility = View.GONE
             }
         }
