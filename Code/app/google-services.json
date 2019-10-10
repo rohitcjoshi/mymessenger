@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "28024931779",
+    "firebase_url": "https://mymessenger-5642e.firebaseio.com",
+    "project_id": "mymessenger-5642e",
+    "storage_bucket": "mymessenger-5642e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28024931779:android:8f64b31acf8c592335a976",
+        "android_client_info": {
+          "package_name": "com.rohit.kotlin.mymessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28024931779-db8tec6psc2todf3v6o34llojvvjimos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rohit.kotlin.mymessenger",
+            "certificate_hash": "2f4baf06908180e917e534d8a2b20dba92c4e919"
+          }
+        },
+        {
+          "client_id": "28024931779-r3kijlgdbpakuj7i2sgrj2452dtqeqpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rohit.kotlin.mymessenger",
+            "certificate_hash": "e95e507acb6466678d77b344b0edcfcd95d7f0e8"
+          }
+        },
+        {
+          "client_id": "28024931779-1hb4mi6cln0sp24g34o74qj2bfcvurl5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDS-82sdtZ80tALUXgrZEzd75B2Z3nYQJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28024931779-1hb4mi6cln0sp24g34o74qj2bfcvurl5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
