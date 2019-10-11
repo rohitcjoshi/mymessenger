@@ -4,6 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkBg"
     tools:context=".ui.activities.SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/settingsProfilePic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/profile_img" />
+
+        <TextView
+            android:id="@+id/settingsDisplayNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Display Name"
+            android:textAlignment="center"
+            android:textIsSelectable="false"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white_text"/>
+
+        <TextView
+            android:id="@+id/settingsStatusTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/change_status"
+            android:textAlignment="center"
+            android:textIsSelectable="false"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="@color/white_text"/>
+
+        <Button
+            android:id="@+id/settingsBtnChangePic"
+            style="@style/ButtonDefault"
+            android:layout_marginTop="60dp"
+            android:text="@string/change_pic"/>
+
+        <Button
+            android:id="@+id/settingsBtnChangeStatus"
+            style="@style/ButtonDefault"
+            android:layout_marginTop="10dp"
+            android:text="@string/change_status"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
