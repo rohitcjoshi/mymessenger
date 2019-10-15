@@ -12,18 +12,23 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.rohit.kotlin.mymessenger.R
+import com.rohit.kotlin.mymessenger.ui.fragments.LoadingDialog
 import kotlinx.android.synthetic.main.activity_create_account.*
 
 class CreateAccountActivity : AppCompatActivity() {
 
     var mAuth: FirebaseAuth? = null
     var mDatabase: DatabaseReference? = null
+    var progressDialog: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
 
+        progressDialog = LoadingDialog(this)
+
         mAuth = FirebaseAuth.getInstance()
+
         btnCreateNewAccount.setOnClickListener {
             val email = etCreateNewEnterEmail.text.toString().trim()
             val password = etCreateNewEnterPassword.text.toString().trim()
@@ -38,8 +43,7 @@ class CreateAccountActivity : AppCompatActivity() {
     }
 
     private fun createAccount(email: String, password: String, displayName: String) {
-        progressBarCreateAcc.visibility = View.VISIBLE
-        progressBarCreateAcc.bringToFront()
+        progressDialog?.showProgressDialog()
         mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener {
             task: Task<AuthResult> ->
             if(task.isSuccessful) {
@@ -59,19 +63,19 @@ class CreateAccountActivity : AppCompatActivity() {
                     task: Task<Void> ->
                     if(task.isSuccessful) {
                         Toast.makeText(this, R.string.toast_msg_account_created, Toast.LENGTH_LONG).show()
-                        progressBarCreateAcc.visibility = View.GONE
+                        progressDialog?.dismissProgressDialog()
                         val dashboardIntent = Intent(this, DashboardActivity::class.java)
                         dashboardIntent.putExtra("display_name", displayName)
                         startActivity(dashboardIntent)
                         finish()
                     } else {
-                        Toast.makeText(this, "Fatal error. Your account NOT created..!", Toast.LENGTH_LONG).show()
-                        progressBarCreateAcc.visibility = View.GONE
+                        Toast.makeText(this, "Server error. Your account NOT created..!", Toast.LENGTH_LONG).show()
+                        progressDialog?.dismissProgressDialog()
                     }
                 }
             } else {
-                Toast.makeText(this, "Fatal error. Unable to create account..!", Toast.LENGTH_LONG).show()
-                progressBarCreateAcc.visibility = View.GONE
+                Toast.makeText(this, "Server error. Unable to create account..!", Toast.LENGTH_LONG).show()
+                progressDialog?.dismissProgressDialog()
             }
         }
     }

@@ -1,16 +1,23 @@
 package com.rohit.kotlin.mymessenger.ui.activities
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,18 +25,18 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.rohit.kotlin.mymessenger.R
 import com.theartofdev.edmodo.cropper.CropImage
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.dialog_status_update.view.*
 import java.io.ByteArrayOutputStream
 import java.io.File
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.R
-
+import com.rohit.kotlin.mymessenger.R
+import com.rohit.kotlin.mymessenger.ui.fragments.LoadingDialog
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.dialog_status_update.view.*
+import kotlinx.android.synthetic.main.layout_progress_bar.*
+import java.lang.Exception
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -37,11 +44,13 @@ class SettingsActivity : AppCompatActivity() {
     var currentUser: FirebaseUser? = null
     var storageRef: StorageReference? = null
     val GALARY_REQ_ID = 1001
+    var progressBar: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar!!.title = "Settings"
+        progressBar = LoadingDialog(this)
 
         databaseRef = FirebaseDatabase.getInstance().reference
         currentUser = FirebaseAuth.getInstance().currentUser
@@ -53,15 +62,35 @@ class SettingsActivity : AppCompatActivity() {
             .child("Users")
             .child(userId)
 
+        progressBar?.showProgressDialog()
         databaseRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d("SettingsActivity", " Executing onDataChange() ------------->")
+
                 val displayName = dataSnapshot.child("display_name").value
-                val image = dataSnapshot.child("image").value
+                val image = dataSnapshot.child("image").value.toString()
                 val status = dataSnapshot.child("status").value
                 val thumbnail = dataSnapshot.child("thumbnail").value
 
                 settingsDisplayNameTxt.text = displayName.toString()
                 settingsStatusTxt.text = status.toString()
+
+                if(!"default".equals(image)) {
+                    Picasso.get()
+                        .load(image)
+                        .placeholder(R.drawable.profile_img)
+                        .into(settingsProfilePic, object: Callback {
+                            override fun onSuccess() {
+                                progressBar?.dismissProgressDialog()
+                            }
+                            override fun onError(e: Exception?) {
+                                progressBar?.dismissProgressDialog()
+                            }
+                        })
+                } else {
+                    progressBar?.dismissProgressDialog()
+                }
+                Log.d("SettingsActivity", " Executing onDataChange() ------------->END")
             }
 
             override fun onCancelled(err: DatabaseError) {
@@ -102,6 +131,9 @@ class SettingsActivity : AppCompatActivity() {
                     .setMaxHeight(200)
                     .setQuality(65)
                     .compressToBitmap(thumbFile)
+
+                // Show progress bar while loading data
+                progressBar?.showProgressDialog()
 
                 // Upload to Firebase
                 val byteArray = ByteArrayOutputStream()
@@ -147,17 +179,24 @@ class SettingsActivity : AppCompatActivity() {
                                                         task: Task<Void> ->
                                                         if(task.isSuccessful) {
                                                             Toast.makeText(this, "Profile image saved..!", Toast.LENGTH_LONG).show()
+//                                                            progressBar?.dismissProgressDialog() // Let it cancel when data loaded again
                                                         }
                                                     }
                                             } else {
                                                 Toast.makeText(this, "Profile image loading failed..!", Toast.LENGTH_LONG).show()
+                                                progressBar?.dismissProgressDialog()
                                             }
                                         }
+                                    } else {
+                                        progressBar?.dismissProgressDialog()
                                     }
                                 }
+                            } else {
+                                progressBar?.dismissProgressDialog()
                             }
                         }
-
+                    } else {
+                        progressBar?.dismissProgressDialog()
                     }
                 }
 
@@ -181,12 +220,14 @@ class SettingsActivity : AppCompatActivity() {
         builder.setPositiveButton(
             "Update",
             DialogInterface.OnClickListener { dialogInterface, which ->
+                progressBar?.showProgressDialog()
                 databaseRef!!.child("status").setValue(etStatus.text.toString().trim()).addOnCompleteListener {
                     if(it.isSuccessful) {
                         Toast.makeText(this, "New Status set: " + etStatus.text, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(this, "Status update task failed!", Toast.LENGTH_LONG).show()
                     }
+                    progressBar?.dismissProgressDialog()
                 }
                 dialogInterface.dismiss()
             })

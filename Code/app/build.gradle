@@ -45,4 +45,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+
+    // FirebaseUI for Firebase Realtime Database
+    implementation 'com.firebaseui:firebase-ui-database:6.0.2'
 }
