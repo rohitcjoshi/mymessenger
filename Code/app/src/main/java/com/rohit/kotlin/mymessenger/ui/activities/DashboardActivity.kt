@@ -21,7 +21,6 @@ class DashboardActivity : AppCompatActivity() {
 
         if(intent.extras != null) {
             val userName = intent.extras!!.get("display_name")
-
             Toast.makeText(this, userName.toString() + " logged in..!", Toast.LENGTH_LONG).show()
         }
 
