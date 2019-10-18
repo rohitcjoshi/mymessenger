@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.rohit.kotlin.mymessenger.R
 import com.rohit.kotlin.mymessenger.models.User
 import com.rohit.kotlin.mymessenger.ui.adapters.UsersAdapter
+import com.rohit.kotlin.mymessenger.utils.KEY_DB_USERS
 import kotlinx.android.synthetic.main.fragment_users.*
 
 /**
@@ -34,7 +35,7 @@ class UsersFragment : Fragment() {
 
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        userDatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+        userDatabaseReference = FirebaseDatabase.getInstance().reference.child(KEY_DB_USERS)
         val options = FirebaseRecyclerOptions.Builder<User>()
             .setQuery(userDatabaseReference!!, User::class.java)
             .setLifecycleOwner(this)
@@ -42,6 +43,6 @@ class UsersFragment : Fragment() {
 
         usersRecyclerView.setHasFixedSize(true)
         usersRecyclerView.layoutManager = linearLayoutManager
-        usersRecyclerView.adapter = UsersAdapter(userDatabaseReference!!, context!!, options)
+        usersRecyclerView.adapter = UsersAdapter(context!!, options)
     }
 }

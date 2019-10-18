@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.rohit.kotlin.mymessenger.R
 import com.rohit.kotlin.mymessenger.ui.fragments.LoadingDialog
+import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_DISPLAY_NAME
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
             progressDialog?.dismissProgressDialog()
             if(task.isSuccessful) {
                 val dashboardIntent = Intent(this, DashboardActivity::class.java)
-                dashboardIntent.putExtra("display_name", mAuth?.currentUser?.email)
+                dashboardIntent.putExtra(KEY_INTENT_DISPLAY_NAME, mAuth?.currentUser?.email)
                 startActivity(dashboardIntent)
                 finish()
             } else {

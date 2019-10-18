@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.rohit.kotlin.mymessenger.R
 import com.rohit.kotlin.mymessenger.ui.fragments.LoadingDialog
+import com.rohit.kotlin.mymessenger.utils.*
 import kotlinx.android.synthetic.main.activity_create_account.*
 
 class CreateAccountActivity : AppCompatActivity() {
@@ -51,13 +52,13 @@ class CreateAccountActivity : AppCompatActivity() {
                 val userId = currentUser?.uid
 
                 mDatabase = FirebaseDatabase.getInstance().reference
-                    .child("Users").child(userId!!)
+                    .child(KEY_DB_USERS).child(userId!!)
 
                 val userObject = HashMap<String, String>()
-                userObject.put("display_name", displayName)
-                userObject.put("status", "Hello there..!")
-                userObject.put("image", "default")
-                userObject.put("thumbnail", "default")
+                userObject.put(KEY_INTENT_DISPLAY_NAME, displayName)
+                userObject.put(KEY_INTENT_STATUS, "Hello there..!")
+                userObject.put(KEY_INTENT_IMAGE, KEY_INTENT_DEFAULT_TEXT)
+                userObject.put(KEY_INTENT_THUMBNAIL, KEY_INTENT_DEFAULT_TEXT)
 
                 mDatabase!!.setValue(userObject).addOnCompleteListener {
                     task: Task<Void> ->
@@ -65,7 +66,7 @@ class CreateAccountActivity : AppCompatActivity() {
                         Toast.makeText(this, R.string.toast_msg_account_created, Toast.LENGTH_LONG).show()
                         progressDialog?.dismissProgressDialog()
                         val dashboardIntent = Intent(this, DashboardActivity::class.java)
-                        dashboardIntent.putExtra("display_name", displayName)
+                        dashboardIntent.putExtra(KEY_INTENT_DISPLAY_NAME, displayName)
                         startActivity(dashboardIntent)
                         finish()
                     } else {

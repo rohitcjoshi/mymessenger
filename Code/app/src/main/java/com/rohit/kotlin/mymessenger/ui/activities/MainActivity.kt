@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.rohit.kotlin.mymessenger.R
+import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_DISPLAY_NAME
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             if(user != null) {
                 // Go to dashboard
                 val dashboardIntent = Intent(this, DashboardActivity::class.java)
-                dashboardIntent.putExtra("display_name", user?.email)
+                dashboardIntent.putExtra(KEY_INTENT_DISPLAY_NAME, user?.email)
                 startActivity(dashboardIntent)
                 finish()
             }

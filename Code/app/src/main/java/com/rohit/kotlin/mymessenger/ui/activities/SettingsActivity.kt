@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import com.rohit.kotlin.mymessenger.R
 import com.rohit.kotlin.mymessenger.ui.fragments.LoadingDialog
+import com.rohit.kotlin.mymessenger.utils.*
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_status_update.view.*
@@ -59,7 +60,7 @@ class SettingsActivity : AppCompatActivity() {
         val userId = currentUser!!.uid
 
         databaseRef = FirebaseDatabase.getInstance().reference
-            .child("Users")
+            .child(KEY_DB_USERS)
             .child(userId)
 
         progressBar?.showProgressDialog()
@@ -67,15 +68,15 @@ class SettingsActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.d("SettingsActivity", " Executing onDataChange() ------------->")
 
-                val displayName = dataSnapshot.child("display_name").value
-                val image = dataSnapshot.child("image").value.toString()
-                val status = dataSnapshot.child("status").value
-                val thumbnail = dataSnapshot.child("thumbnail").value
+                val displayName = dataSnapshot.child(KEY_INTENT_DISPLAY_NAME).value
+                val image = dataSnapshot.child(KEY_INTENT_IMAGE).value.toString()
+                val status = dataSnapshot.child(KEY_INTENT_STATUS).value
+                val thumbnail = dataSnapshot.child(KEY_INTENT_THUMBNAIL).value
 
                 settingsDisplayNameTxt.text = displayName.toString()
                 settingsStatusTxt.text = status.toString()
 
-                if(!"default".equals(image)) {
+                if(!KEY_INTENT_DEFAULT_TEXT.equals(image)) {
                     Picasso.get()
                         .load(image)
                         .placeholder(R.drawable.profile_img)
@@ -139,12 +140,12 @@ class SettingsActivity : AppCompatActivity() {
                 val byteArray = ByteArrayOutputStream()
                 thumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
                 val thumbByteArray = byteArray.toByteArray()
-                val filePath = storageRef!!.child("chat_profile_images")
+                val filePath = storageRef!!.child(KEY_DB_CHILD_CHAT_PROFILE_IMAGES)
                     .child(userId + ".jpg")
 
                 // Create another directory for thumbnail images
-                val thumbFilePath = storageRef!!.child("chat_profile_images")
-                    .child("thumbnails")
+                val thumbFilePath = storageRef!!.child(KEY_DB_CHILD_CHAT_PROFILE_IMAGES)
+                    .child(KEY_DB_CHILD_THUMBNAILS)
                     .child(userId + ".jpg")
 
                 // Upload main image
@@ -171,8 +172,8 @@ class SettingsActivity : AppCompatActivity() {
 
                                                 // Save the images in firebase
                                                 val updateObj = HashMap<String, Any>()
-                                                updateObj.put("image", downloadUrl)
-                                                updateObj.put("thumbnail", thumbnailUrl)
+                                                updateObj.put(KEY_INTENT_IMAGE, downloadUrl)
+                                                updateObj.put(KEY_INTENT_THUMBNAIL, thumbnailUrl)
 
                                                 databaseRef!!.updateChildren(updateObj)
                                                     .addOnCompleteListener {
@@ -221,11 +222,11 @@ class SettingsActivity : AppCompatActivity() {
             "Update",
             DialogInterface.OnClickListener { dialogInterface, which ->
                 progressBar?.showProgressDialog()
-                databaseRef!!.child("status").setValue(etStatus.text.toString().trim()).addOnCompleteListener {
+                databaseRef!!.child(KEY_DB_CHILD_STATUS).setValue(etStatus.text.toString().trim()).addOnCompleteListener {
                     if(it.isSuccessful) {
-                        Toast.makeText(this, "New Status set: " + etStatus.text, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Status message updated..!", Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(this, "Status update task failed!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Status update failed!", Toast.LENGTH_LONG).show()
                     }
                     progressBar?.dismissProgressDialog()
                 }

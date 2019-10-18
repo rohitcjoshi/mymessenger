@@ -6,6 +6,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.rohit.kotlin.mymessenger.R
+import com.rohit.kotlin.mymessenger.utils.KEY_DB_USERS
+import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_USER_ID
 
 class ProfileActivity : AppCompatActivity() {
     var currentUser: FirebaseUser? = null
@@ -19,10 +21,10 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         if(intent.extras != null) {
-            userId = intent.extras?.get("userId").toString()
+            userId = intent.extras?.get(KEY_INTENT_USER_ID).toString()
             currentUser = FirebaseAuth.getInstance().currentUser
             userDatabaseRef = FirebaseDatabase.getInstance().reference
-                .child("Users")
+                .child(KEY_DB_USERS)
                 .child(userId!!)
 
             setupUserProfile()

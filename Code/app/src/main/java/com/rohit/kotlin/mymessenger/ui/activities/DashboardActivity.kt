@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.rohit.kotlin.mymessenger.R
 import com.rohit.kotlin.mymessenger.ui.adapters.SectionPageAdapter
+import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_DISPLAY_NAME
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : AppCompatActivity() {
@@ -20,7 +21,7 @@ class DashboardActivity : AppCompatActivity() {
         supportActionBar!!.title = "Dashboard"
 
         if(intent.extras != null) {
-            val userName = intent.extras!!.get("display_name")
+            val userName = intent.extras!!.get(KEY_INTENT_DISPLAY_NAME)
             Toast.makeText(this, userName.toString() + " logged in..!", Toast.LENGTH_LONG).show()
         }
 
