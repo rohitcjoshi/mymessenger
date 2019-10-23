@@ -27,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 class UsersAdapter(val context: Context, val options: FirebaseRecyclerOptions<User>) :
     FirebaseRecyclerAdapter<User, UsersAdapter.ViewHolder>(options) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersAdapter.ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_users_layout, parent))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_users_layout, null))
     }
 
     override fun onBindViewHolder(holder: UsersAdapter.ViewHolder, position: Int, model: User) {
