@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/darkBg"
     tools:context=".ui.activities.ProfileActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/happy_woman" />
+
+        <TextView
+            android:id="@+id/profileDisplayNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textIsSelectable="false"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white_text"/>
+
+        <TextView
+            android:id="@+id/profileStatusTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="status"
+            android:textAlignment="center"
+            android:textIsSelectable="false"
+            android:maxLines="3"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="@color/white_text"/>
+
+        <Button
+            android:id="@+id/profileBtnSendMessage"
+            style="@style/ButtonDefault"
+            android:layout_marginTop="25dp"
+            android:text="Send Message"/>
+    </LinearLayout>
+</ScrollView>
