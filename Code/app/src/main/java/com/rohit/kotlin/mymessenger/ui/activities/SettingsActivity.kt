@@ -1,23 +1,15 @@
 package com.rohit.kotlin.mymessenger.ui.activities
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -36,7 +28,6 @@ import com.rohit.kotlin.mymessenger.utils.*
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_status_update.view.*
-import kotlinx.android.synthetic.main.layout_progress_bar.*
 import java.lang.Exception
 
 
@@ -145,7 +136,7 @@ class SettingsActivity : AppCompatActivity() {
 
                 // Create another directory for thumbnail images
                 val thumbFilePath = storageRef!!.child(KEY_DB_CHILD_CHAT_PROFILE_IMAGES)
-                    .child(KEY_DB_CHILD_THUMBNAILS)
+                    .child(KEY_STORAGE_CHILD_THUMBNAILS)
                     .child(userId + ".jpg")
 
                 // Upload main image
