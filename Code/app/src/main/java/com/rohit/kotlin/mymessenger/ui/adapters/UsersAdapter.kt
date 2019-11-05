@@ -12,11 +12,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.rohit.kotlin.mymessenger.R
 import com.rohit.kotlin.mymessenger.models.User
 import com.rohit.kotlin.mymessenger.ui.activities.ChatsActivity
 import com.rohit.kotlin.mymessenger.ui.activities.ProfileActivity
+import com.rohit.kotlin.mymessenger.ui.activities.SettingsActivity
 import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_NAME
 import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_PROFILE
 import com.rohit.kotlin.mymessenger.utils.KEY_INTENT_STATUS
@@ -27,38 +29,49 @@ import de.hdodenhof.circleimageview.CircleImageView
 class UsersAdapter(val context: Context, val options: FirebaseRecyclerOptions<User>) :
     FirebaseRecyclerAdapter<User, UsersAdapter.ViewHolder>(options) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersAdapter.ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_users_layout, null))
+        return UsersAdapter.ViewHolder(
+            LayoutInflater.from(context).inflate(
+                R.layout.row_users_layout,
+                null
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: UsersAdapter.ViewHolder, position: Int, model: User) {
-        val userId = getRef(position).key
+        val userId = getRef(position).key.toString()
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val isMe = userId.equals(currentUserId)
         holder.bindView(model)
 
         holder.itemView.setOnClickListener {
-            // Create a dialog to choose 1. Send message, 2. View Profile
-            val options = arrayOf("Open Profile", "Send Message")
+            if(isMe) {
+                context.startActivity(Intent(context, SettingsActivity::class.java))
+            } else {
+                // Create a dialog to choose 1. Send message, 2. View Profile
+                val options = arrayOf("Open Profile", "Send Message")
 
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Select")
-            builder.setItems(options, DialogInterface.OnClickListener { dialogInterface, i ->
-                val name = holder.userNameTxt
-                val status = holder.userStatusTxt
-                val profilePicLink = holder.userProfilePicLink
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Select")
+                builder.setItems(options, DialogInterface.OnClickListener { dialogInterface, i ->
+                    val name = holder.userNameTxt
+                    val status = holder.userStatusTxt
+                    val profilePicLink = holder.userProfilePicLink
 
-                if(i == 0) { // Open Profile
-                    val profileIntent = Intent(context, ProfileActivity::class.java)
-                    profileIntent.putExtra(KEY_INTENT_USER_ID, userId)
-                    context.startActivity(profileIntent)
-                } else if(i == 1) { // Send Message
-                    val chatIntent = Intent(context, ChatsActivity::class.java)
-                    chatIntent.putExtra(KEY_INTENT_USER_ID, userId)
-                    chatIntent.putExtra(KEY_INTENT_NAME, name)
-                    chatIntent.putExtra(KEY_INTENT_STATUS, status)
-                    chatIntent.putExtra(KEY_INTENT_PROFILE, profilePicLink)
-                    context.startActivity(chatIntent)
-                }
-            })
-            builder.create().show()
+                    if (i == 0) { // Open Profile
+                        val profileIntent = Intent(context, ProfileActivity::class.java)
+                        profileIntent.putExtra(KEY_INTENT_USER_ID, userId)
+                        context.startActivity(profileIntent)
+                    } else if (i == 1) { // Send Message
+                        val chatIntent = Intent(context, ChatsActivity::class.java)
+                        chatIntent.putExtra(KEY_INTENT_USER_ID, userId)
+                        chatIntent.putExtra(KEY_INTENT_NAME, name)
+                        chatIntent.putExtra(KEY_INTENT_STATUS, status)
+                        chatIntent.putExtra(KEY_INTENT_PROFILE, profilePicLink)
+                        context.startActivity(chatIntent)
+                    }
+                })
+                builder.create().show()
+            }
         }
     }
 
